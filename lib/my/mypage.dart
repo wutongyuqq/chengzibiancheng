@@ -15,7 +15,7 @@ class MyPageWidgetState extends State<MyPageWidget>{
         title: new Text('我的'),
       ),
       body: new Center(
-        child: Icon(Icons.mood,size: 130.0,color: Colors.blue,),
+        child: Icon(Icons.mood,size: 130.0,color: Colors.blue,)
       ),
     );
   }
