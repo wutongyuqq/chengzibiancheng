@@ -5,6 +5,8 @@
  * @LastEditors: 陈汝冰
  * @LastEditTime: 2021-01-01 15:54:35
  */
+import 'dart:collection';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +29,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  var dataMap = null;
+  static Map dataMap = new HashMap();
 
   @override
   void initState() {
@@ -42,12 +44,74 @@ class _HomePageState extends State<HomePage>
   /*一个渐变颜色的正方形集合*/
   List<Widget> Boxs() => List.generate(5, (index) {
     return Container(
-      width: 100,
-      height: 100,
+      width: 120.sp,
+      height: 140.sp,
+
       alignment: Alignment.center,
-      child: Image( image: NetworkImage( (dataMap==null||dataMap['categoryList']==null)?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']))),
+      //child: Image( image: NetworkImage( (dataMap==null||dataMap['categoryList']==null)?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']))),
+      child: Column(children: <Widget>[
+        Container(
+          width: 80.sp,
+          height: 80.sp,
+          decoration: BoxDecoration(
+            //设置方框背景颜色
+//            borderRadius: BorderRadius.all(
+//              Radius.circular(150)      //变成圆形，不过一般不这么实现圆形图片
+//            ),
+            borderRadius: BorderRadius.circular(5),       //实现圆形图片的方式一：   有些麻烦
+            image: DecorationImage(
+                image: NetworkImage((dataMap==null||dataMap['categoryList']==null)?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico'])),
+                fit: BoxFit.cover     //铺满全屏
+            ),
+          ),
+        ),
+    Container(
+    width: 10.sp,
+    height: 10.sp,
+    ),
+        Text((dataMap==null||dataMap['categoryList']==null)?'':(dataMap['categoryList'][index]['name']),
+        )
+      ]),
     );
   });
+
+
+  /*一个渐变颜色的正方形集合*/
+  List<Widget> teacherWidget() => List.generate(3, (index) {
+    return Container(
+      width: 200.sp,
+      height: 320.sp,
+
+      alignment: Alignment.center,
+      //child: Image( image: NetworkImage( (dataMap==null||dataMap['categoryList']==null)?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']))),
+      child: Column(children: <Widget>[
+        Container(
+          width: 200.sp,
+          height: 260.sp,
+          decoration: BoxDecoration(
+            //设置方框背景颜色
+//            borderRadius: BorderRadius.all(
+//              Radius.circular(150)      //变成圆形，不过一般不这么实现圆形图片
+//            ),
+            borderRadius: BorderRadius.circular(5),       //实现圆形图片的方式一：   有些麻烦
+            image: DecorationImage(
+                image: NetworkImage((dataMap==null||dataMap['teacherList']==null)?'':(Global.baseImageUrl + dataMap['teacherList'][index]['teacherphoto'])),
+                fit: BoxFit.cover     //铺满全屏
+            ),
+          ),
+        ),
+        Container(
+          width: 10.sp,
+          height: 10.sp,
+        ),
+        Text((dataMap==null||dataMap['teacherList']==null)?'':(dataMap['teacherList'][index]['teacher']),
+        )
+      ]),
+    );
+  });
+
+
+
 
   Future<ApiResponse<dynamic>> getData() async {
     try {
@@ -73,32 +137,97 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: appbar(),
+
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
           SingleChildScrollView(
             child: ConstrainedBox(
               constraints:
-              BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+              BoxConstraints(maxHeight: 2*MediaQuery.of(context).size.height),
               child: Column(
                 children: [
                   banner(),
                   Container(
-                    height: 500.sp,
+                    alignment: Alignment.center,
+                    width: 600.sp,
+                    height: 300.sp,
                     //dataMap['categoryList']==null?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']),
                     child: Wrap(
-                      spacing: 2, //主轴上子控件的间距
-                      runSpacing: 5, //交叉轴上子控件之间的间距
+                      spacing: 80.sp, //主轴上子控件的间距
+                      runSpacing: 20.sp, //交叉轴上子控件之间的间距
                       children: Boxs(), //要显示的子控件集合
                     ),
                   ),
+                  Center(child: noticeLayout()),
+                  Center(child: teacherInfo()),
+                  Container(
+                    alignment: Alignment.center,
+                    width: 700.sp,
+                    height: 320.sp,
+                    //dataMap['categoryList']==null?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']),
+                    child: Wrap(
+                      spacing: 50.sp, //主轴上子控件的间距
+                      runSpacing: 20.sp, //交叉轴上子控件之间的间距
+                      children: teacherWidget(), //要显示的子控件集合
+                    ),
+                  ),
+                  Center(child: newsUpdate()),
+                  dataMap['lessonList']==null?Container():Container(
+                    alignment: Alignment.center,
+                    width: 700.sp,
+                    //自定义列表,注意这里传递了参数在类中
+                    //child: MyListView(items: dataMap==null?new List():dataMap['lessonList']),
+                    child: Column(
+                      children: <Widget>[
+                        Stack(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                for (int i = 0; i < dataMap['lessonList'].length; i++)
+                                  lessonItem(
+                                      dataMap['lessonList'][i]
+                                  ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Center(child: bottomTopTitle()),
+                  dataMap['lessonList']==null?Container():Container(
+                    width: 700.sp,
+                    //自定义列表,注意这里传递了参数在类中
+                    //child: MyListView(items: dataMap==null?new List():dataMap['lessonList']),
+                    child: Row(
+                      children: <Widget>[
+                        Stack(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                for (int i = 0; i < (dataMap['lessonList'].length>2?2:dataMap['lessonList'].length); i++)
+                                  bottomLessonItem(
+                                      dataMap['lessonList'][i]
+                                  ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
                 ],
               ),
             ),
           ),
+
           Center(child: Text("这是推荐的内容")),
           Center(child: Text("这是关注的内容")),
+
         ],
+
       ),
     );
   }
@@ -126,30 +255,166 @@ class _HomePageState extends State<HomePage>
       ],
     );
   }
-  Widget iconBar(){
-    Column buildButtonColumn(IconData icon, String label) {
-      Color color = Theme.of(context).primaryColor;
 
-      return new Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          new Icon(icon, color: color),
-          new Container(
-            margin: const EdgeInsets.only(top: 8.0),
-            child: new Text(
-              label,
-              style: new TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.w400,
-                color: color,
-              ),
-            ),
-          ),
-        ],
-      );
-    }
+  Widget noticeLayout(){
+    return new IntrinsicHeight(
+      // 这里的A/B为同一高度, 假设A高为20, B原高为10, 这里B会把高度撑起, 也会变为20
+      child: Row(children: <Widget>[
+        Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/V0PGl6ZtUURA5TZFGCTT0rvS45Fta5.png'),width: 40.sp,height:40.sp,),
+        Text((dataMap==null||dataMap['noticeList']==null)?'':(dataMap['noticeList'][0]['title'])),
+        Text("更多"),
+    ]));
   }
+
+
+  Widget teacherInfo(){
+    return  new IntrinsicHeight(
+        child: Row(
+      children: [
+        new Container(
+          child:  Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/EtQjDc3J0WDeQM92TJVzf0nZiM7V72.png'),width: 40.sp,height:40.sp,),
+        ),
+        new Text(
+          '名师风采',
+          style: new TextStyle(
+            color: Colors.grey[500],
+          ),
+        ),
+        new Icon(
+          Icons.star,
+          color: Colors.red[500],
+        ),
+    ]
+    )
+    );
+  }
+
+
+  Widget newsUpdate(){
+    return  new IntrinsicHeight(
+        child: Row(
+            children: [
+              new Container(
+                child:  Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/Iu2siKugkWi5202KW2AfIK5uxok2uc.png'),width: 40.sp,height:40.sp,),
+              ),
+              new Text(
+                '最新更新',
+                style: new TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+            ]
+        )
+    );
+  }
+/*
+
+  Widget lessonList(){
+    return new ListView.builder(
+        itemCount: (dataMap==null||dataMap['lessonList']==null)?0:dataMap['lessonList'].length,
+        itemBuilder: (context,index){
+      return Container(
+        width: 700.sp,
+        height: 200.sp,
+        child: Row(
+            children: [
+              new Container(
+                child:  Image(image: NetworkImage((dataMap==null||dataMap['lessonList']==null||dataMap['lessonList'][index]['images']==null)?'':(Global.baseImageUrl + dataMap['lessonList'][index]['images'])),width:280.sp,height:200.sp,),
+              )
+            ]
+
+        ),
+      );;
+    });
+
+  }
+*/
+
+
+  Widget lessonItem(lessonMap){
+          return Container(
+            width: 700.sp,
+            height: 200.sp,
+            child: Row(
+                children: [
+
+                  new Container(
+                    margin: EdgeInsets.fromLTRB(0.sp, 15.sp, 10.sp, 0.sp),//外边距，父容器本身相对外部容器的移动
+                    child:  Image(image: NetworkImage((lessonMap==null||lessonMap['images']==null)?'':(Global.baseImageUrl +lessonMap['images'])),width:260.sp,height:200.sp,fit:BoxFit.fill),
+                  ),
+                  new Container(
+                      alignment: Alignment.topLeft,
+                      width: 420.sp,
+                      child:Column(
+                        children: [
+                          Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
+                          Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
+                        ],
+                      )
+                  )
+                ]
+
+            ),
+          );
+  }
+
+
+
+  Widget bottomTopTitle(){
+    return  new IntrinsicHeight(
+        child: Row(
+            children: [
+              new Container(
+                child:new Icon(
+                  Icons.subway_rounded,
+                  color: Colors.red[500],
+                ),
+              ),
+              new Text(
+                '编程基础',
+                style: new TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+              new Text(
+                '查看更多',
+                style: new TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+            ]
+        )
+    );
+  }
+
+  Widget bottomLessonItem(lessonMap){
+    return Container(
+      width: 320.sp,
+      height: 280.sp,
+      child: Column(
+          children: [
+            new Container(
+              child:  Image(image: NetworkImage((lessonMap==null||lessonMap['images']==null)?'':(Global.baseImageUrl +lessonMap['images'])),width:280.sp,height:200.sp,fit:BoxFit.fill),
+            ),
+            new Container(
+                alignment: Alignment.topLeft,
+                width: 420.sp,
+                child:Column(
+                  children: [
+                    Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
+                    Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
+                  ],
+                )
+            )
+          ]
+
+      ),
+    );
+  }
+
+
+
+
   /// Banner
   Widget banner() {
     return Container(
@@ -181,7 +446,7 @@ class _HomePageState extends State<HomePage>
                     )
                   ]),
               child: Image.network(
-                dataMap==null?bannerList[index]:Global.baseImageUrl+dataMap['bannerList'][index]['picture'],
+                dataMap['bannerList']==null?bannerList[index]:Global.baseImageUrl+dataMap['bannerList'][index]['picture'],
                 fit: BoxFit.cover,
               ),
             ),
@@ -236,3 +501,28 @@ class _HomePageState extends State<HomePage>
     );
   }
 }
+class MyListView extends StatelessWidget {
+  //设置属性，用来接收外部参数， final 参数类型，参数名
+  final List<String> items;
+  //以下是构造函数，固定语法
+  MyListView({Key key, @required this.items}):super(key:key);
+
+  @override
+  Widget build(BuildContext context){
+
+    return ListView.builder(
+
+      //元素数量
+      itemCount: 4,
+      // 这里设置元素内容，目前不懂
+      itemBuilder: (context,index){
+        return ListTile(
+          leading: Icon(Icons.access_alarm),
+          title: Text("列表标题是"),
+        );
+      },
+    );
+
+  }
+}
+
