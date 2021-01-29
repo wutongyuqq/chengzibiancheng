@@ -11,7 +11,7 @@ class Global {
   ///api接口环境
   static String serverUrl2 = "http://api.douban.com";
   static String serverUrl = "http://kt.yxg12.cn/app/index.php?i=2&v=1.21&from=mobileapp&c=entry&a=wxapp&m=fy_lessonv2&wxapp_uniacid=2&wxapp_version=1.21&";
-
+  static String baseImageUrl = "http://mn.yxg12.cn/";
   ///是否判断网络状态
   static bool retryEnable = true;
 
