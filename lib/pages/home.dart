@@ -15,6 +15,9 @@ import 'package:getx/data/data.dart';
 import 'package:getx/style/iconfont/icon_font.dart';
 import 'package:getx/utils/http/api_response.dart';
 import 'package:getx/utils/http/http_utils.dart';
+import 'package:getx/utils/config.dart';
+
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,19 +27,35 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  var dataMap = null;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 3);
-    getData();
+    Future<ApiResponse<dynamic>> future = getData();
+    print("22222");
   }
+
+
+
+  /*一个渐变颜色的正方形集合*/
+  List<Widget> Boxs() => List.generate(5, (index) {
+    return Container(
+      width: 100,
+      height: 100,
+      alignment: Alignment.center,
+      child: Image( image: NetworkImage( (dataMap==null||dataMap['categoryList']==null)?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']))),
+    );
+  });
 
   Future<ApiResponse<dynamic>> getData() async {
     try {
       final response = await HttpUtils.get(
-          "/v2/movie/in_theaters?apikey=0b2bdeda43b5688921839c8ecb20399b",
+          "do=MyHomeData",
           params: {});
+      var responseData = json.decode(response.toString());
+      dataMap = responseData['data'];
       return ApiResponse.completed(response);
     } on DioError catch (e) {
       return ApiResponse.error(e.error);
@@ -60,28 +79,17 @@ class _HomePageState extends State<HomePage>
           SingleChildScrollView(
             child: ConstrainedBox(
               constraints:
-                  BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+              BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
               child: Column(
                 children: [
                   banner(),
-                  TitlePage("热映推荐", 31),
                   Container(
                     height: 500.sp,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            Image.network(
-                              hotRecommendList[index]['image'],
-                              width: 200.sp,
-                              height: 300.sp,
-                            ),
-                            Text('疯狂动物城'),
-                          ],
-                        );
-                      },
-                      itemCount: hotRecommendList.length,
+                    //dataMap['categoryList']==null?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']),
+                    child: Wrap(
+                      spacing: 2, //主轴上子控件的间距
+                      runSpacing: 5, //交叉轴上子控件之间的间距
+                      children: Boxs(), //要显示的子控件集合
                     ),
                   ),
                 ],
@@ -118,12 +126,35 @@ class _HomePageState extends State<HomePage>
       ],
     );
   }
+  Widget iconBar(){
+    Column buildButtonColumn(IconData icon, String label) {
+      Color color = Theme.of(context).primaryColor;
 
+      return new Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          new Icon(icon, color: color),
+          new Container(
+            margin: const EdgeInsets.only(top: 8.0),
+            child: new Text(
+              label,
+              style: new TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w400,
+                color: color,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+  }
   /// Banner
   Widget banner() {
     return Container(
       margin: EdgeInsets.only(top: 15.sp, bottom: 15.sp),
-      height: 270.sp,
+      height: 350.sp,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
           color: Colors.grey[300],
@@ -150,7 +181,7 @@ class _HomePageState extends State<HomePage>
                     )
                   ]),
               child: Image.network(
-                bannerList[index],
+                dataMap==null?bannerList[index]:Global.baseImageUrl+dataMap['bannerList'][index]['picture'],
                 fit: BoxFit.cover,
               ),
             ),
@@ -198,7 +229,7 @@ class _HomePageState extends State<HomePage>
       unselectedLabelColor: Color(0xff333333), //未选中label颜色
       indicator: MyUnderlineTabIndicator(
         borderSide:
-            BorderSide(width: 8.sp, color: Theme.of(context).primaryColor),
+        BorderSide(width: 8.sp, color: Theme.of(context).primaryColor),
       ),
       indicatorSize: TabBarIndicatorSize.label,
       indicatorColor: Theme.of(context).primaryColor,
