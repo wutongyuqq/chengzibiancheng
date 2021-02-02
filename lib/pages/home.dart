@@ -65,10 +65,10 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ),
-    Container(
-    width: 10.sp,
-    height: 10.sp,
-    ),
+        Container(
+          width: 10.sp,
+          height: 10.sp,
+        ),
         Text((dataMap==null||dataMap['categoryList']==null)?'':(dataMap['categoryList'][index]['name']),
         )
       ]),
@@ -259,33 +259,33 @@ class _HomePageState extends State<HomePage>
   Widget noticeLayout(){
     return new IntrinsicHeight(
       // 这里的A/B为同一高度, 假设A高为20, B原高为10, 这里B会把高度撑起, 也会变为20
-      child: Row(children: <Widget>[
-        Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/V0PGl6ZtUURA5TZFGCTT0rvS45Fta5.png'),width: 40.sp,height:40.sp,),
-        Text((dataMap==null||dataMap['noticeList']==null)?'':(dataMap['noticeList'][0]['title'])),
-        Text("更多"),
-    ]));
+        child: Row(children: <Widget>[
+          Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/V0PGl6ZtUURA5TZFGCTT0rvS45Fta5.png'),width: 40.sp,height:40.sp,),
+          Text((dataMap==null||dataMap['noticeList']==null)?'':(dataMap['noticeList'][0]['title'])),
+          Text("更多"),
+        ]));
   }
 
 
   Widget teacherInfo(){
     return  new IntrinsicHeight(
         child: Row(
-      children: [
-        new Container(
-          child:  Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/EtQjDc3J0WDeQM92TJVzf0nZiM7V72.png'),width: 40.sp,height:40.sp,),
-        ),
-        new Text(
-          '名师风采',
-          style: new TextStyle(
-            color: Colors.grey[500],
-          ),
-        ),
-        new Icon(
-          Icons.star,
-          color: Colors.red[500],
-        ),
-    ]
-    )
+            children: [
+              new Container(
+                child:  Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/EtQjDc3J0WDeQM92TJVzf0nZiM7V72.png'),width: 40.sp,height:40.sp,),
+              ),
+              new Text(
+                '名师风采',
+                style: new TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+              new Icon(
+                Icons.star,
+                color: Colors.red[500],
+              ),
+            ]
+        )
     );
   }
 
@@ -307,55 +307,32 @@ class _HomePageState extends State<HomePage>
         )
     );
   }
-/*
-
-  Widget lessonList(){
-    return new ListView.builder(
-        itemCount: (dataMap==null||dataMap['lessonList']==null)?0:dataMap['lessonList'].length,
-        itemBuilder: (context,index){
-      return Container(
-        width: 700.sp,
-        height: 200.sp,
-        child: Row(
-            children: [
-              new Container(
-                child:  Image(image: NetworkImage((dataMap==null||dataMap['lessonList']==null||dataMap['lessonList'][index]['images']==null)?'':(Global.baseImageUrl + dataMap['lessonList'][index]['images'])),width:280.sp,height:200.sp,),
-              )
-            ]
-
-        ),
-      );;
-    });
-
-  }
-*/
-
 
   Widget lessonItem(lessonMap){
-          return Container(
-            width: 700.sp,
-            height: 200.sp,
-            child: Row(
-                children: [
+    return Container(
+      width: 700.sp,
+      height: 200.sp,
+      child: Row(
+          children: [
 
-                  new Container(
-                    margin: EdgeInsets.fromLTRB(0.sp, 15.sp, 10.sp, 0.sp),//外边距，父容器本身相对外部容器的移动
-                    child:  Image(image: NetworkImage((lessonMap==null||lessonMap['images']==null)?'':(Global.baseImageUrl +lessonMap['images'])),width:260.sp,height:200.sp,fit:BoxFit.fill),
-                  ),
-                  new Container(
-                      alignment: Alignment.topLeft,
-                      width: 420.sp,
-                      child:Column(
-                        children: [
-                          Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
-                          Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
-                        ],
-                      )
-                  )
-                ]
-
+            new Container(
+              margin: EdgeInsets.fromLTRB(0.sp, 15.sp, 10.sp, 0.sp),//外边距，父容器本身相对外部容器的移动
+              child:  Image(image: NetworkImage((lessonMap==null||lessonMap['images']==null)?'':(Global.baseImageUrl +lessonMap['images'])),width:260.sp,height:200.sp,fit:BoxFit.fill),
             ),
-          );
+            new Container(
+                alignment: Alignment.topLeft,
+                width: 420.sp,
+                child:Column(
+                  children: [
+                    Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
+                    Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
+                  ],
+                )
+            )
+          ]
+
+      ),
+    );
   }
 
 
