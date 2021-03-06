@@ -54,10 +54,6 @@ class _HomePageState extends State<HomePage>
           width: 80.sp,
           height: 80.sp,
           decoration: BoxDecoration(
-            //设置方框背景颜色
-//            borderRadius: BorderRadius.all(
-//              Radius.circular(150)      //变成圆形，不过一般不这么实现圆形图片
-//            ),
             borderRadius: BorderRadius.circular(5),       //实现圆形图片的方式一：   有些麻烦
             image: DecorationImage(
                 image: NetworkImage((dataMap==null||dataMap['categoryList']==null)?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico'])),
@@ -89,10 +85,6 @@ class _HomePageState extends State<HomePage>
           width: 200.sp,
           height: 260.sp,
           decoration: BoxDecoration(
-            //设置方框背景颜色
-//            borderRadius: BorderRadius.all(
-//              Radius.circular(150)      //变成圆形，不过一般不这么实现圆形图片
-//            ),
             borderRadius: BorderRadius.circular(5),       //实现圆形图片的方式一：   有些麻烦
             image: DecorationImage(
                 image: NetworkImage((dataMap==null||dataMap['teacherList']==null)?'':(Global.baseImageUrl + dataMap['teacherList'][index]['teacherphoto'])),
@@ -109,9 +101,6 @@ class _HomePageState extends State<HomePage>
       ]),
     );
   });
-
-
-
 
   Future<ApiResponse<dynamic>> getData() async {
     try {

@@ -82,11 +82,11 @@ class _IndexPageState extends State<IndexPage> with WidgetsBindingObserver {
                   bottomNavigationBarItem(
                       0, '首页', IconNames.shouye, IconNames.shouye_1),
                   bottomNavigationBarItem(
-                      1, '课程', IconNames.dianying, IconNames.dianying_1),
+                      1, '找课', IconNames.dianying, IconNames.dianying_1),
                   bottomNavigationBarItem(
                       2, '讲师', IconNames.faxian, IconNames.faxian_1),
                   bottomNavigationBarItem(
-                      3, '知乎', IconNames.yanchu, IconNames.yanchu_1),
+                      3, '课程表', IconNames.yanchu, IconNames.yanchu_1),
                   bottomNavigationBarItem(
                       4, '我的', IconNames.wode, IconNames.wode_1),
                 ],
