@@ -47,7 +47,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
       ),
       body:
       SingleChildScrollView(
-        child:  dataMap['lessonList']==null?Container():Container(
+        child:  dataMap['userInfo']==null?Container():Container(
           alignment: Alignment.center,
           width: 700.sp,
           //自定义列表,注意这里传递了参数在类中
@@ -58,9 +58,9 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      for (int i = 0; i < dataMap['lessonList'].length; i++)
+                      for (int i = 0; i < dataMap['userInfo'].length; i++)
                         lessonItem(
-                            dataMap['lessonList'][i]
+                            dataMap['userInfo'][i]
                         ),
                     ],
                   )
@@ -72,7 +72,6 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
       ),
     );
   }
-
 
 
 
@@ -92,8 +91,8 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                 width: 420.sp,
                 child:Column(
                   children: [
-                    Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
-                    Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
+                    Text(lessonMap['nickname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
+                    Text(lessonMap['openid']==null?"":lessonMap['openid'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
                   ],
                 )
             )
@@ -106,7 +105,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
   Future<ApiResponse<dynamic>> getData() async {
     try {
       final response = await HttpUtils.get(
-          "do=PersonDetailData",
+          "do=PersonDataById&userId=180332",
           params: {});
       var responseData = json.decode(response.toString());
       dataMap = responseData['data'];
