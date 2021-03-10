@@ -42,6 +42,23 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+  assets:
+    - assets/images/self-icon-collect-lesson.png
+    - assets/images/self-icon-collect-teacher.png
+    - assets/images/self-icon-collect-teachercenter.png
+    - assets/images/self-icon-commission.png
+    - assets/images/self-icon-coupon.png
+    - assets/images/self-icon-history.png
+    - assets/images/self-icon-lesson-invite.png
+    - assets/images/self-icon-modify-mobile.png
+    - assets/images/self-icon-study-duration.png
+    - assets/images/self-icon-subscribe.png
+    - assets/images/self-icon-teacher-buy.png
+    - assets/images/self-icon-evaluate.png
+    - assets/images/self-icon-nopay.png
+    - assets/images/self-icon-noverify.png
+    - assets/images/self-icon-pay.png
+    - assets/images/self-icon-vip-service.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
