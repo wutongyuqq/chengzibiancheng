@@ -11,7 +11,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:getx/components/title_page.dart';
 import 'package:getx/components/underline_tabIndicator.dart';
 import 'package:getx/data/data.dart';
 import 'package:getx/style/iconfont/icon_font.dart';
@@ -42,7 +41,7 @@ class _HomePageState extends State<HomePage>
 
 
   /*一个渐变颜色的正方形集合*/
-  List<Widget> Boxs() => List.generate(5, (index) {
+  List<Widget> Boxs() => List.generate(dataMap['categoryList']==null?0:dataMap['categoryList'].length, (index) {
     return Container(
       width: 120.sp,
       height: 140.sp,
@@ -76,14 +75,14 @@ class _HomePageState extends State<HomePage>
   List<Widget> teacherWidget() => List.generate(3, (index) {
     return Container(
       width: 200.sp,
-      height: 320.sp,
+      height: 350.sp,
 
       alignment: Alignment.center,
       //child: Image( image: NetworkImage( (dataMap==null||dataMap['categoryList']==null)?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']))),
       child: Column(children: <Widget>[
         Container(
           width: 200.sp,
-          height: 260.sp,
+          height: 280.sp,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),       //实现圆形图片的方式一：   有些麻烦
             image: DecorationImage(
@@ -94,7 +93,7 @@ class _HomePageState extends State<HomePage>
         ),
         Container(
           width: 10.sp,
-          height: 10.sp,
+          height: 20.sp,
         ),
         Text((dataMap==null||dataMap['teacherList']==null)?'':(dataMap['teacherList'][index]['teacher']),
         )
@@ -131,29 +130,50 @@ class _HomePageState extends State<HomePage>
         controller: _tabController,
         children: <Widget>[
           SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints:
-              BoxConstraints(maxHeight: 2*MediaQuery.of(context).size.height),
+            child: Container(
+
               child: Column(
                 children: [
                   banner(),
+
                   Container(
                     alignment: Alignment.center,
-                    width: 600.sp,
-                    height: 300.sp,
+                    width: 800.sp,
+                    height: 320.sp,
+                    padding:  new EdgeInsets.only(top: 10),
                     //dataMap['categoryList']==null?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']),
                     child: Wrap(
-                      spacing: 80.sp, //主轴上子控件的间距
+                      spacing: 120.sp, //主轴上子控件的间距
                       runSpacing: 20.sp, //交叉轴上子控件之间的间距
                       children: Boxs(), //要显示的子控件集合
                     ),
                   ),
-                  Center(child: noticeLayout()),
-                  Center(child: teacherInfo()),
+                  Divider(
+                    height: 1,
+                    indent: 0.0,
+                    color: Colors.grey,
+                  ),
+              Container(
+                padding:  new EdgeInsets.all(10),
+                 child: noticeLayout(),
+              ),
+
+                  Container(
+                    padding:  new EdgeInsets.only(top: 10),
+                    decoration:BoxDecoration(
+                      color: Color(0xffF5F1F1),
+                    ),
+                    child: null,
+                  ),
+                  Container(
+                    padding:  new EdgeInsets.only(top: 10),
+                    child: teacherInfo(),
+                  ),
+
                   Container(
                     alignment: Alignment.center,
-                    width: 700.sp,
-                    height: 320.sp,
+                    height: 360.sp,
+                    padding:  new EdgeInsets.only(top: 10),
                     //dataMap['categoryList']==null?'':(Global.baseImageUrl + dataMap['categoryList'][index]['ico']),
                     child: Wrap(
                       spacing: 50.sp, //主轴上子控件的间距
@@ -161,10 +181,18 @@ class _HomePageState extends State<HomePage>
                       children: teacherWidget(), //要显示的子控件集合
                     ),
                   ),
-                  Center(child: newsUpdate()),
+                  Container(
+                    padding:  new EdgeInsets.only(top: 10),
+                    decoration:BoxDecoration(
+                      color: Color(0xffF5F1F1),
+                    ),
+                    child: null,
+                  ),
+                  Container(
+                      padding:  new EdgeInsets.only(top: 10),
+                      child: newsUpdate()
+                  ),
                   dataMap['lessonList']==null?Container():Container(
-                    alignment: Alignment.center,
-                    width: 700.sp,
                     //自定义列表,注意这里传递了参数在类中
                     //child: MyListView(items: dataMap==null?new List():dataMap['lessonList']),
                     child: Column(
@@ -247,11 +275,19 @@ class _HomePageState extends State<HomePage>
 
   Widget noticeLayout(){
     return new IntrinsicHeight(
+
       // 这里的A/B为同一高度, 假设A高为20, B原高为10, 这里B会把高度撑起, 也会变为20
         child: Row(children: <Widget>[
+          SizedBox(width: 10), // 50宽度
           Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/V0PGl6ZtUURA5TZFGCTT0rvS45Fta5.png'),width: 40.sp,height:40.sp,),
           Text((dataMap==null||dataMap['noticeList']==null)?'':(dataMap['noticeList'][0]['title'])),
+          Expanded(child: SizedBox()),//自动扩展挤压
           Text("更多"),
+          new Icon(
+            Icons.arrow_forward_ios,
+            size: 15,
+          ),
+          SizedBox(width: 10), // 50宽度
         ]));
   }
 
@@ -259,7 +295,9 @@ class _HomePageState extends State<HomePage>
   Widget teacherInfo(){
     return  new IntrinsicHeight(
         child: Row(
+
             children: [
+              SizedBox(width: 10), // 50宽度
               new Container(
                 child:  Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/EtQjDc3J0WDeQM92TJVzf0nZiM7V72.png'),width: 40.sp,height:40.sp,),
               ),
@@ -269,10 +307,19 @@ class _HomePageState extends State<HomePage>
                   color: Colors.grey[500],
                 ),
               ),
-              new Icon(
-                Icons.star,
-                color: Colors.red[500],
+              Expanded(child: SizedBox()),//自动扩展挤压
+              new Text(
+                '查看全部',
+                style: new TextStyle(
+                  color: Colors.grey[500],
+                ),
               ),
+              new Icon(
+                Icons.arrow_forward_ios,
+                size: 15,
+                color: Colors.grey[500],
+              ),
+              SizedBox(width: 10), // 50宽度
             ]
         )
     );
@@ -283,9 +330,11 @@ class _HomePageState extends State<HomePage>
     return  new IntrinsicHeight(
         child: Row(
             children: [
+              SizedBox(width: 10), // 50宽度
               new Container(
                 child:  Image(image: NetworkImage('http://mn.yxg12.cn/images/2/2020/12/Iu2siKugkWi5202KW2AfIK5uxok2uc.png'),width: 40.sp,height:40.sp,),
               ),
+              SizedBox(width: 5), // 50宽度
               new Text(
                 '最新更新',
                 style: new TextStyle(
@@ -299,22 +348,32 @@ class _HomePageState extends State<HomePage>
 
   Widget lessonItem(lessonMap){
     return Container(
-      width: 700.sp,
-      height: 200.sp,
+      height: 230.sp,
       child: Row(
           children: [
-
             new Container(
               margin: EdgeInsets.fromLTRB(0.sp, 15.sp, 10.sp, 0.sp),//外边距，父容器本身相对外部容器的移动
-              child:  Image(image: NetworkImage((lessonMap==null||lessonMap['images']==null)?'':(Global.baseImageUrl +lessonMap['images'])),width:260.sp,height:200.sp,fit:BoxFit.fill),
+              child:
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.circular(5)),
+                clipBehavior: Clip.antiAlias,
+                child:         Image(image: NetworkImage((lessonMap==null||lessonMap['images']==null)?'':(Global.baseImageUrl +lessonMap['images'])),width:280.sp,height:200.sp,fit:BoxFit.fill),
+              )
+
             ),
             new Container(
+                width: 200,
+                padding: new EdgeInsets.only(top: 20),
                 alignment: Alignment.topLeft,
-                width: 420.sp,
                 child:Column(
                   children: [
-                    Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
-                    Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
+                      Expanded(
+                      child: Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
+                      ),
+                      Expanded(
+                      child: Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
+                      )
                   ],
                 )
             )

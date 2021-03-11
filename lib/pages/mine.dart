@@ -9,15 +9,9 @@ import 'dart:collection';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:getx/components/title_page.dart';
-import 'package:getx/components/underline_tabIndicator.dart';
-import 'package:getx/data/data.dart';
-import 'package:getx/style/iconfont/icon_font.dart';
+
 import 'package:getx/utils/http/api_response.dart';
 import 'package:getx/utils/http/http_utils.dart';
-import 'package:getx/utils/config.dart';
 
 import 'dart:convert';
 
