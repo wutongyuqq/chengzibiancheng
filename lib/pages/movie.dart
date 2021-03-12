@@ -48,8 +48,6 @@ class _MoviePageState extends State<MoviePage> with WidgetsBindingObserver {
       body:
           SingleChildScrollView(
             child:  dataMap['lessonList']==null?Container():Container(
-              alignment: Alignment.center,
-              width: 700.sp,
               //自定义列表,注意这里传递了参数在类中
               //child: MyListView(items: dataMap==null?new List():dataMap['lessonList']),
               child: Column(
@@ -76,30 +74,47 @@ class _MoviePageState extends State<MoviePage> with WidgetsBindingObserver {
 
 
 
-  Widget lessonItem(lessonMap){
+  Widget lessonItem(lessonMap) {
     return Container(
-      width: 700.sp,
-      height: 200.sp,
-      child: Row(
-          children: [
-
-            new Container(
-              margin: EdgeInsets.fromLTRB(0.sp, 15.sp, 10.sp, 0.sp),//外边距，父容器本身相对外部容器的移动
-              child:  Image(image: NetworkImage((lessonMap==null||lessonMap['images']==null)?'':(Global.baseImageUrl +lessonMap['images'])),width:260.sp,height:200.sp,fit:BoxFit.fill),
-            ),
-            new Container(
-                alignment: Alignment.topLeft,
-                width: 420.sp,
-                child:Column(
-                  children: [
-                    Text(lessonMap['bookname'],overflow:TextOverflow.clip,textAlign:TextAlign.left),
-                    Text(lessonMap['update_time']==null?"":lessonMap['update_time'],overflow:TextOverflow.clip,textAlign:TextAlign.left)
-                  ],
-                )
-            )
-          ]
-
-      ),
+      height: 230.sp,
+      child: Row(children: [
+        new Container(
+            margin: EdgeInsets.fromLTRB(20.sp, 15.sp, 10.sp, 0.sp),
+            //外边距，父容器本身相对外部容器的移动
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.circular(5)),
+              clipBehavior: Clip.antiAlias,
+              child: Image(
+                  image: NetworkImage(
+                      (lessonMap == null || lessonMap['images'] == null)
+                          ? ''
+                          : (Global.baseImageUrl + lessonMap['images'])),
+                  width: 280.sp,
+                  height: 200.sp,
+                  fit: BoxFit.fill),
+            )),
+        new Container(
+            width: 210,
+            padding: new EdgeInsets.only(top: 10, left: 10),
+            alignment: Alignment.topLeft,
+            child: Column(
+              children: [
+                Expanded(
+                    child: Text(
+                        lessonMap['bookname'] == null
+                            ? ""
+                            : lessonMap['bookname'].trim(),
+                        overflow: TextOverflow.clip)),
+                Expanded(
+                    child: Text(
+                        lessonMap['update_time'] == null
+                            ? ""
+                            : lessonMap['update_time'].trim(),
+                        overflow: TextOverflow.clip))
+              ],
+            ))
+      ]),
     );
   }
 

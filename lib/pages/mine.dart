@@ -52,6 +52,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                       height: 240.0,
                       fit: BoxFit.cover),
                   new Container(
+                    padding: new EdgeInsets.only(top: 15, bottom: 15),
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -61,8 +62,24 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                       ],
                     ),
                   ),
+                  Container(
+                    padding: new EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xffF5F1F1),
+                    ),
+                    child: null,
+                  ),
                   mineItem(),
                   new Container(
+                    padding: new EdgeInsets.only(left: 10,right:10),
+                  child: Divider(
+                                  height: 1,
+                                  indent: 0.0,
+                                  color: Colors.grey,
+                                ),
+                  ),
+                  new Container(
+                    padding: new EdgeInsets.only(top: 15, bottom: 15),
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -73,6 +90,13 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                       ],
                     ),
                   ),
+                  Container(
+                    padding: new EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xffF5F1F1),
+                    ),
+                    child: null,
+                  ),
                   mineListItem("assets/images/self-icon-subscribe.png","订阅消息"),
                   mineListItem("assets/images/self-icon-vip-service.png","VIP服务"),
                   mineListItem("assets/images/self-icon-teacher-buy.png","讲师服务"),
@@ -80,6 +104,13 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                   mineListItem("assets/images/self-icon-history.png","我的足迹"),
                   mineListItem("assets/images/self-icon-collect-lesson.png","收藏课程"),
                   mineListItem("assets/images/self-icon-collect-teacher.png","收藏讲师"),
+                  Container(
+                    padding: new EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xffF5F1F1),
+                    ),
+                    child: null,
+                  ),
                   mineListItem("assets/images/self-icon-collect-teachercenter.png","讲师中心"),
                   mineListItem("assets/images/self-icon-commission.png","分销中心"),
                   mineListItem("assets/images/self-icon-study-duration.png","学习时长"),
@@ -107,20 +138,20 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
           child: new Text(
             labelNum,
             style: new TextStyle(
-              fontSize: 12.0,
+              fontSize: 20.0,
               fontWeight: FontWeight.w400,
-              color: Color(int.parse('0xff005956')),
+              color: Color(0xff62B3D8),
             ),
           ),
         ),
         new Container(
-
+          margin: const EdgeInsets.only(top: 8.0),
           child: new Text(
             label,
             style: new TextStyle(
-              fontSize: 12.0,
+              fontSize: 14.0,
               fontWeight: FontWeight.w400,
-              color: Color(int.parse('0xff005956')),
+              color: Color(int.parse('0xff494949')),
             ),
           ),
         ),
@@ -132,20 +163,19 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
 
 
   Column buildIconColumn(String iconPath, String label) {
-    Color color = Theme.of(context).primaryColor;
     return new Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(iconPath),
+        Image.asset(iconPath,width: 20,height: 20,),
         new Container(
-          margin: const EdgeInsets.only(top: 8.0),
+          padding: new EdgeInsets.only(top: 10),
           child: new Text(
             label,
             style: new TextStyle(
               fontSize: 12.0,
               fontWeight: FontWeight.w400,
-              color: color,
+              color: Color(0xff494949),
             ),
           ),
         ),
@@ -157,20 +187,27 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
     return Row(
 
         children: [
+          SizedBox(width: 15), // 50宽度
           new Container(
-
+            padding: new EdgeInsets.only(top: 15,bottom:15),
             child: new Text(
               '全部订单',
               style: new TextStyle(
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          new Text('查看全部订单'),
+          Expanded(child: SizedBox(),), //自动扩展挤压
+          new Text('查看全部订单',style: new TextStyle(
+            fontSize: 14,
+            color: Color(0xff969696),
+          ),),
           new Icon(
             Icons.navigate_next_outlined,
             color: Colors.grey,
           ),
+          SizedBox(width: 15), // 50宽度
 
         ]
     );
@@ -180,17 +217,40 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
 
 
   Widget mineListItem(String iconPath,String words){
-    return Row(
+    return
+
+      new Container(padding: new EdgeInsets.only(top: 13, left: 10,right: 10),
+        child:new Column(
+
         children: [
-          Image.asset(iconPath),
-          new Text(words),
+        Row(
+        children: [
+          SizedBox(width: 10), // 50宽度
+          Image.asset(iconPath,width:20,height: 20,),
+          SizedBox(width: 20), // 50宽度
+          new Text(words,
+            style: TextStyle(
+              fontSize: 15,
+              color: Color(0xff494949),
+            )),
+          Expanded(child: SizedBox()), //自动扩展挤压
           new Icon(
             Icons.navigate_next_outlined,
             color: Colors.grey,
           ),
-
+          SizedBox(width: 10), //
         ]
+        ),
+          SizedBox(height: 13), //
+          Divider(
+            height: 1,
+            indent: 0.0,
+            color: words.contains("收藏讲师")?Colors.white:Colors.grey,
+          ),
+
+    ]),
     );
+
   }
 
   Future<ApiResponse<dynamic>> getData() async {
