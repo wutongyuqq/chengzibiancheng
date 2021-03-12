@@ -9,6 +9,7 @@ import 'dart:collection';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 import 'package:getx/utils/http/api_response.dart';
 import 'package:getx/utils/http/http_utils.dart';
@@ -46,11 +47,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
             children: <Widget>[
               new Column(
                 children: <Widget>[
-                  Image(image: NetworkImage(
-                      "http://mn.yxg12.cn/images/2/2020/12/TjohDY67LTH1bnBBhOnNTEyYY197T5.jpg"),
-                      width: 600.0,
-                      height: 240.0,
-                      fit: BoxFit.cover),
+                  mineHead(),
                   new Container(
                     padding: new EdgeInsets.only(top: 15, bottom: 15),
                     child: new Row(
@@ -116,6 +113,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                   mineListItem("assets/images/self-icon-study-duration.png","学习时长"),
                   mineListItem("assets/images/self-icon-coupon.png","优惠券"),
                   mineListItem("assets/images/self-icon-modify-mobile.png","修改手机"),
+                  mineBottomItem()
                 ],
 
               )
@@ -159,6 +157,25 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
     );
   }
 
+
+
+
+  Container mineHead(){
+    return Container(
+      decoration: new BoxDecoration(
+        color: Colors.grey,
+        image: new DecorationImage(
+          image: new NetworkImage("http://mn.yxg12.cn/images/2/2020/12/TjohDY67LTH1bnBBhOnNTEyYY197T5.jpg"),
+          //这里是从assets静态文件中获取的，也可以new NetworkImage(）从网络上获取
+          centerSlice: new Rect.fromLTRB(270.0, 180.0, 1360.0, 730.0),
+        ),
+      ),
+        width: 600.0,
+        height: 240.0,
+        child:  null,
+
+    );
+  }
 
 
 
@@ -250,6 +267,37 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
 
     ]),
     );
+
+  }
+
+
+
+
+  Widget mineBottomItem(){
+    return
+
+      new Container(padding: new EdgeInsets.only(top: 13, left: 10,right: 10,bottom: 50),
+        width: ScreenUtil().screenWidth,
+        decoration: new BoxDecoration(
+          color: Color(0xffF5F1F1),
+        ),
+        child:new Column(
+
+            children: [
+
+              SizedBox(height: 20), //
+              new MaterialButton(
+                color: Colors.blue,
+                minWidth: 300,
+                textColor: Colors.white,
+                child: new Text('退出登录'),
+                onPressed: () {
+                  // ...
+                },
+              )
+
+            ]),
+      );
 
   }
 

@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage>
                                     children: <Widget>[
                                       for (int i = 0;
                                           i <
-                                              (dataMap['lessonList'].length > 2
+                                              (dataMap['lessonList']!=null && dataMap['lessonList'].length > 2
                                                   ? 2
                                                   : dataMap['lessonList']
                                                       .length);
@@ -243,6 +243,13 @@ class _HomePageState extends State<HomePage>
                             ],
                           ),
                         ),
+                  Container(
+                    padding: new EdgeInsets.only(top: 50),
+                    decoration: BoxDecoration(
+                      color: Color(0xffF5F1F1),
+                    ),
+                    child: null,
+                  ),
                 ],
               ),
             ),
@@ -456,7 +463,7 @@ class _HomePageState extends State<HomePage>
         new Container(
             alignment: Alignment.topLeft,
             width: ScreenUtil().screenWidth / 2 - 20,
-            padding: new EdgeInsets.only(top: 10, left: 10,bottom: 50),
+            padding: new EdgeInsets.only(top: 10, left: 10,bottom: 10),
             child: Column(
               children: [
                 Text(lessonMap['bookname'],
