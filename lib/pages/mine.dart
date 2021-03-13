@@ -10,6 +10,7 @@ import 'dart:collection';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:getx/routers/app_pages.dart';
 
 import 'package:getx/utils/http/api_response.dart';
 import 'package:getx/utils/http/http_utils.dart';
@@ -133,7 +134,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
             style: new TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.w400,
-              color: Color(0xff62B3D8),
+              color: Color(0xffD8B362),
             ),
           ),
         ),
@@ -169,7 +170,10 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
       child: new Column(children: [
         new Row(
           children: [
-            new Container(
+            new InkWell(
+              onTap:(){
+                nextPage();
+              }, child:new Container(
               alignment: Alignment.center,
               width: 70,
               height: 30,
@@ -192,7 +196,7 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
                       color: Colors.white,
                     )),
               ]),
-            ),
+            )),
             Expanded(child: SizedBox()), //自动扩展挤压
             new Icon(
               Icons.settings_rounded,
@@ -227,6 +231,13 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
         )
       ]),
     );
+  }
+
+  void nextPage() async{
+    final result = await Navigator.pushNamed(context, Routes.SignToday,arguments: {
+      "id":"8"		//参数map
+    });
+    //result页面返回结果
   }
 
   Column buildIconColumn(String iconPath, String label) {
@@ -329,16 +340,23 @@ class _MinePageState extends State<MinePage> with WidgetsBindingObserver {
       child: new Column(children: [
         SizedBox(height: 20), //
         new MaterialButton(
-          color: Colors.blue,
+          color: Color(0xff04BE02),
           minWidth: 300,
           textColor: Colors.white,
           child: new Text('退出登录'),
           onPressed: () {
-            // ...
+            loginOut();
           },
         )
       ]),
     );
+  }
+
+  void loginOut() async{
+    final result = await Navigator.pushNamed(context, Routes.Login,arguments: {
+      "id":"8"		//参数map
+    });
+    //result页面返回结果
   }
 
   Future<ApiResponse<dynamic>> getData() async {

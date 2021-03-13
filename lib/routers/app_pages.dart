@@ -12,6 +12,8 @@ import 'package:getx/pages/home.dart';
 import 'package:getx/pages/index.dart';
 import 'package:getx/pages/mine.dart';
 import 'package:getx/pages/movie.dart';
+import 'package:getx/pages/my/login/login.dart';
+import 'package:getx/pages/my/sign/sign_today.dart';
 
 part 'app_routes.dart';
 
@@ -42,6 +44,14 @@ class AppPages {
     GetPage(
       name: Routes.Mine,
       page: () => MinePage(),
+    ),
+    GetPage(
+      name: Routes.SignToday,
+      page: () => SignDatePage(),
+    ),
+    GetPage(
+      name: Routes.Login,
+      page: () => LoginPage(),
     ),
   ];
 }

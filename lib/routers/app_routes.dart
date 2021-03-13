@@ -14,4 +14,6 @@ abstract class Routes {
   static const Find = '/find';
   static const CoolLook = '/coollook';
   static const Mine = '/mine';
+  static const SignToday = '/signtoday';
+  static const Login = '/login';
 }
